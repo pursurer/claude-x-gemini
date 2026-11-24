@@ -1,0 +1,14 @@
+{
+  "name": "gemini-relay",
+  "description": "Marketplace for the gemini-relay plugin",
+  "owner": { "name": "pursurer" },
+  "plugins": [
+    {
+      "name": "gemini-relay",
+      "description": "Gemini explains your project to you, you talk it over, and Gemini tells Claude Code what you want.",
+      "version": "0.1.0",
+      "source": "./",
+      "author": { "name": "pursurer" }
+    }
+  ]
+}

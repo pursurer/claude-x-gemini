@@ -1,0 +1,1 @@
+Write about 80% of the way to ASD-STE100 Simplified Technical English: one idea per sentence, one term per meaning, active voice, no filler. Cut nothing: keep every fact, number, condition, and hedge.

@@ -1,0 +1,1 @@
+Output one self-contained HTML page (inline CSS and JS, no external requests) that explains with a diagram or an interactive element where it helps. Put the numbers table, in Markdown, inside an HTML comment at the end.

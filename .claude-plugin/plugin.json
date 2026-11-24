@@ -1,0 +1,10 @@
+{
+  "name": "gemini-relay",
+  "description": "Gemini explains your project to you, you talk it over, and Gemini tells Claude Code what you want. Gemini reads the files on its own quota via the Antigravity CLI.",
+  "version": "0.1.0",
+  "author": { "name": "pursurer" },
+  "homepage": "https://github.com/pursurer/gemini-relay",
+  "repository": "https://github.com/pursurer/gemini-relay",
+  "license": "MIT",
+  "keywords": ["gemini", "antigravity", "agy", "explain", "delegation", "token-saving", "skills"]
+}
