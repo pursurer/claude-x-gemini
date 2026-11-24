@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""gemini-relay: Gemini (Antigravity CLI `agy`) explains things to you, then carries your ideas back to Claude Code.
+"""claude-x-gemini: Gemini (Antigravity CLI `agy`) explains things to you, then carries your ideas back to Claude Code.
 
   explain --brief FILE [--style plain|eli5|feynman|expert] [--html]  Claude's message to Gemini, in its own
                                                                       words; Gemini reads the files it names and
@@ -9,8 +9,8 @@
   handoff                                                             Gemini writes what you asked for and what is open
   models                                                              models your account can use
 
-Run from the project root. Files go to $GEMINI_RELAY_DIR (default .gemini-relay/). The newest explanation is
-the current conversation; pass --file to pick another. Optional: .gemini-relay.md at the project root is added
+Run from the project root. Files go to $CLAUDE_X_GEMINI_DIR (default .claude-x-gemini/). The newest explanation is
+the current conversation; pass --file to pick another. Optional: .claude-x-gemini.md at the project root is added
 to every prompt (language, audience, terms).
 
 Gemini runs read-only: writes and shell commands are refused (a refused write ends its turn with no answer).
@@ -34,9 +34,13 @@ from pathlib import Path
 
 PROMPTS = Path(__file__).resolve().parent.parent / "assets"  # message templates sent to Gemini
 PROJECT = Path.cwd()
-STYLE_FILE = PROJECT / ".gemini-relay.md"
-OUT = PROJECT / os.environ.get("GEMINI_RELAY_DIR", ".gemini-relay")
+STYLE_FILE = PROJECT / ".claude-x-gemini.md"
+OUT = PROJECT / os.environ.get("CLAUDE_X_GEMINI_DIR", ".claude-x-gemini")
 MAX_ARG = 60_000
+# The only fixed text sent with every new conversation. Any refused action (a write, or a read outside the
+# project; seen 11-24) ends agy's turn with no answer. Marking inferences: in testing, Gemini stated guesses as facts until asked to mark them.
+READ_ONLY_LINE = ("You may only read files inside this project folder. Do not write files or run commands. "
+                  "Mark anything you inferred rather than read.")
 SECRET_GLOBS = [".env", ".env.*", "*.pem", "*.key", "*.p12", "*.pfx", "*.keystore", "id_rsa*", "id_ecdsa*",
                 "id_ed25519*", ".netrc", ".npmrc", ".pypirc", "*credentials*", "*secret*", "*.tfvars"]
 SKIP_DIRS = {".git", "node_modules", ".venv", "venv", "__pycache__"}
@@ -136,7 +140,7 @@ def cmd_explain(a: argparse.Namespace) -> int:
     style = f"\n\nStyle: {read(f'styles/{a.style}.md')}" if a.style else ""  # off unless the human picks one
     fmt = "\n\n" + read("format-html.md") if a.html else ""
     # Claude's own message is the prompt. Only the read-only line is added: an attempted write aborts agy's turn.
-    text = f"{brief}{style}{fmt}{project_style()}\n\nYou may only read files. Do not write files or run commands."
+    text = f"{brief}{style}{fmt}{project_style()}\n\n{READ_ONLY_LINE}"
     OUT.mkdir(parents=True, exist_ok=True)
     stem = f"{dt.date.today():%Y%m%d}-{re.sub(r'[^\w-]+', '-', a.slug).strip('-')}"
     md = OUT / (stem + (".html" if a.html else ".md"))
@@ -157,7 +161,7 @@ def cmd_say(a: argparse.Namespace) -> int:
         meta = {"file": md.name, "conversation_id": None, "model": a.model, "log": []}
     else:
         md, meta = current(a)
-    env = agy(a.message + ("\n\nYou may only read files. Do not write files or run commands."
+    env = agy(a.message + ("\n\n" + READ_ONLY_LINE
                            if not meta["conversation_id"] else ""), a, meta["conversation_id"])
     meta["conversation_id"] = meta["conversation_id"] or env.get("conversation_id")
     meta["log"].append({"kind": "say", "message": a.message, "status": env["status"], "usage": env.get("usage")})

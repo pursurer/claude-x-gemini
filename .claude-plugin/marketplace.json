@@ -1,10 +1,10 @@
 {
-  "name": "gemini-relay",
-  "description": "Marketplace for the gemini-relay plugin",
+  "name": "claude-x-gemini",
+  "description": "Marketplace for the claude-x-gemini plugin",
   "owner": { "name": "pursurer" },
   "plugins": [
     {
-      "name": "gemini-relay",
+      "name": "claude-x-gemini",
       "description": "Gemini explains your project to you, you talk it over, and Gemini tells Claude Code what you want.",
       "version": "0.1.0",
       "source": "./",

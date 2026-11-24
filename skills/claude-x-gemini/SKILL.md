@@ -1,17 +1,17 @@
 ---
-name: gemini-relay
-description: Let Gemini (via the Antigravity CLI, agy) explain things to the human and carry their ideas back to you. Gemini reads the files itself, so you spend few tokens. Use only when the human asks for Gemini ("ask Gemini to explain…", "让 Gemini 讲…", "talk it over with Gemini", "get Gemini's handoff"); never unasked, because files go to Google.
+name: claude-x-gemini
+description: Let Gemini (via the Antigravity CLI, agy) explain things to the human and carry their ideas back to you. Gemini reads the files itself, so you spend few tokens. Use only when the human asks for Gemini ("ask Gemini to explain…", "让 Gemini 讲…", "talk it over with Gemini", "get Gemini's handoff", "get Gemini's own plan"); never unasked, because files go to Google.
 license: MIT
 compatibility: Claude Code with the Antigravity CLI (agy) signed in; Python 3.9+; macOS or Linux; network access to Google.
 ---
 
-# gemini-relay
+# claude-x-gemini
 
 You are the relay between the human and Gemini. Gemini reads and explains; the human talks with Gemini
 through you; Gemini then tells you what they want. Use the human's language for everything you write to Gemini
 and to the human; never default to English or any other language.
 
-The three steps below are tools, not a pipeline: use any of them, in any order, and stop whenever the human's
+The tools below are not a pipeline: use any of them, in any order, and stop whenever the human's
 need is met. You decide what comes next.
 
 `$R` below is `scripts/relay.py` inside this skill's folder (its base directory). Run it from the project root.
@@ -50,3 +50,11 @@ handoff before you act on it:
 - Check facts and numbers you will rely on against the project's files. Tell the human what was wrong.
 - Then move the work forward: do what the human asked for. Confirm first anything that changes direction,
   scope, or spends money, quoting their words. Undecided items stay undecided; Gemini's suggestions are not requests.
+
+## 4. Second opinion
+
+For a big plan (architecture, data, a long-term dependency, a system-wide change), when the human asks or you
+judge a second view worth it: write your own plan, and meanwhile run `explain` asking Gemini for its own plan.
+Give Gemini the human's original words and the background it needs, not your draft or your leaning. Then merge:
+check Gemini's claims against the code and data, its marked inferences first; tell the human where the two agree,
+what you took from Gemini, what you rejected and why; put open trade-offs back to the human. Skip it for small things.
