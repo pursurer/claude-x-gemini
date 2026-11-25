@@ -15,7 +15,8 @@ The tools below are not a pipeline: use any of them, in any order, and stop when
 need is met. You decide what comes next.
 
 `$R` below is `scripts/relay.py` inside this skill's folder (its base directory). Run it from the project root.
-Needs the Antigravity CLI signed in (`agy` once in a terminal).
+Needs the Antigravity CLI signed in (`agy` once in a terminal). If a call fails, run `python3 $R doctor` and tell
+the human what it reports.
 
 ## 1. Explain
 

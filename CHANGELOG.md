@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Language follows the human: one fixed line asks Gemini to write everything, progress notes included, in the
+  language the human uses. No language is named anywhere; the `say` log labels are now language-neutral.
+- `relay.py doctor`: checks `agy`, sign-in, quota and Gemini models without spending a turn.
+- README: a "How it differs" section against worker-style `agy` plugins.
+- Canary test of the secret-file deny list (agy 1.5.16): no search or listing tool was available, `.env` was
+  denied, no planted value leaked.
+
 ## 0.1.0 — 2026-11-24
 
 First release, as claude-x-gemini (developed as gemini-relay).

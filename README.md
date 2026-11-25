@@ -10,6 +10,7 @@
 <p align="center">
   <a href="#install-in-30-seconds"><b>Install in 30 seconds</b></a> ·
   <a href="#what-you-can-ask">What you can ask</a> ·
+  <a href="#how-it-differs">How it differs</a> ·
   <a href="#how-it-works">How it works</a> ·
   <a href="README.zh-CN.md">中文</a>
 </p>
@@ -47,8 +48,28 @@ No marketplace? Copy `skills/claude-x-gemini/` into `.claude/skills/`. It is sel
 | "OK, get Gemini's handoff." | Gemini says what you want, what is still open, and its own ideas, kept apart. **Claude checks it against your words and the code**, then gets to work. |
 | "Get Gemini's own plan for this." | Claude writes its plan; Gemini writes one independently from your words, not Claude's draft. Claude merges them and shows you where they differ. |
 
-It answers in your language. Styles are off unless you ask: `plain` (~80% ASD-STE100), `eli5`, `feynman`, `expert`,
+It answers in the language you use with Claude; no language is fixed anywhere. Styles are off unless you ask: `plain` (~80% ASD-STE100), `eli5`, `feynman`, `expert`,
 or an interactive `--html` page.
+
+## How it differs
+
+Other `agy` plugins for Claude Code, such as
+[antigravity-for-claude-code](https://github.com/yuting0624/antigravity-for-claude-code), make Gemini **Claude's worker**:
+it writes code, generates tests, reviews diffs, and Claude checks the output. You talk only to Claude.
+
+claude-x-gemini puts Gemini **in front of you**. It is the part of the conversation where you understand and decide.
+Claude stays the only one that changes anything.
+
+| | Gemini as Claude's worker | claude-x-gemini |
+|---|---|---|
+| Who Gemini talks to | Claude | **you** |
+| What reaches you | Claude's summary of Gemini's output | **Gemini's own words, unedited** |
+| What goes back to Claude | code, a diff, a digest | **what you want, what is still open, Gemini's ideas, kept apart** |
+| Who changes files | Gemini (with write grants) | **only Claude; Gemini is always read-only** |
+| Size | many commands, hooks, routing | one skill, one standard-library script, four fixed sentences |
+
+Pick a worker plugin to save tokens on implementation. Pick this one when you want to understand a project or talk an
+idea through with the model that is nicest to talk to, without letting that model touch your code.
 
 ## How it works
 
@@ -83,8 +104,9 @@ These are tools, not a pipeline. Claude uses any of them, in any order, and stop
   with full confidence; Claude's review caught it. Your own words always outrank Gemini's summary.
 - **Almost no prompt.** Claude writes to Gemini in its own words; nothing teaches Gemini how to talk. A small blind
   test (one topic, one reader) preferred this over a fixed five-field template. A fixed line stayed only if it
-  changed a test result. Three did: list the questions you never answered; keep Gemini's ideas apart from your
-  requests; stay read-only and mark guesses.
+  changed a test result. Four did: list the questions you never answered; keep Gemini's ideas apart from your
+  requests; stay read-only and mark guesses; write everything in your language (without it, agy's progress notes
+  came back in English inside a Chinese answer).
 
 ## What's inside
 
@@ -92,7 +114,7 @@ These are tools, not a pipeline. Claude uses any of them, in any order, and stop
 .claude-plugin/                  plugin + marketplace manifests
 skills/claude-x-gemini/          one self-contained skill (Agent Skills layout)
   SKILL.md                       the flow, for Claude Code (60 lines)
-  scripts/relay.py               explain · say · handoff · models (standard library only)
+  scripts/relay.py               explain · say · handoff · models · doctor (standard library only)
   assets/handoff.md              the one fixed request to Gemini: a single sentence
   assets/styles/*.md             optional styles, one line each
 assets/                          README images
@@ -103,9 +125,14 @@ note. Output goes to `.claude-x-gemini/` (set `CLAUDE_X_GEMINI_DIR` to change it
 
 ## Limits and safety
 
+Something wrong? `python3 skills/claude-x-gemini/scripts/relay.py doctor` checks `agy`, your sign-in, quota and
+models without spending a turn.
+
 - Gemini runs read-only: no writes, no shell commands. It can read your workspace, and what it reads goes to Google.
 - Likely secret files (`.env*`, keys, credentials) are denied by exact path before each run; Antigravity CLI 1.5.16
-  ignored glob and regex deny rules in our tests. Search tools were not tested against this.
+  ignored glob and regex deny rules in our tests. In a canary test (agy 1.5.16, November 2026) Gemini was asked to
+  find planted fake secrets with every tool it had: under these settings it had no search or directory-listing tool,
+  its read of `.env` was denied, and no value leaked. A later `agy` that adds search tools could change this.
 - Your plan decides your Gemini. In November 2026, student Google AI Pro got only Gemini 3.8 Flash in Antigravity;
   paid Pro and Ultra get Gemini 4 Neon.
 

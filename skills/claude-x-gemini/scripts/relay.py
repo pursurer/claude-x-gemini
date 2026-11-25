@@ -8,6 +8,7 @@
                                                                       the latest conversation (or a new one); prints the reply
   handoff                                                             Gemini writes what you asked for and what is open
   models                                                              models your account can use
+  doctor                                                              checks agy, sign-in, quota and models (no turn spent)
 
 Run from the project root. Files go to $CLAUDE_X_GEMINI_DIR (default .claude-x-gemini/). The newest explanation is
 the current conversation; pass --file to pick another. Optional: .claude-x-gemini.md at the project root is added
@@ -41,6 +42,9 @@ MAX_ARG = 60_000
 # project; seen 11-24) ends agy's turn with no answer. Marking inferences: in testing, Gemini stated guesses as facts until asked to mark them.
 READ_ONLY_LINE = ("You may only read files inside this project folder. Do not write files or run commands. "
                   "Mark anything you inferred rather than read.")
+# No language is ever fixed: Gemini follows the human. Without this line, agy's progress notes came back in
+# English inside a Chinese answer (seen 11-25).
+LANGUAGE_LINE = "Write everything, progress notes included, in the language the human uses in this conversation."
 SECRET_GLOBS = [".env", ".env.*", "*.pem", "*.key", "*.p12", "*.pfx", "*.keystore", "id_rsa*", "id_ecdsa*",
                 "id_ed25519*", ".netrc", ".npmrc", ".pypirc", "*credentials*", "*secret*", "*.tfvars"]
 SKIP_DIRS = {".git", "node_modules", ".venv", "venv", "__pycache__"}
@@ -139,8 +143,8 @@ def cmd_explain(a: argparse.Namespace) -> int:
     brief = Path(a.brief).read_text(encoding="utf-8").strip()
     style = f"\n\nStyle: {read(f'styles/{a.style}.md')}" if a.style else ""  # off unless the human picks one
     fmt = "\n\n" + read("format-html.md") if a.html else ""
-    # Claude's own message is the prompt. Only the read-only line is added: an attempted write aborts agy's turn.
-    text = f"{brief}{style}{fmt}{project_style()}\n\n{READ_ONLY_LINE}"
+    # Claude's own message is the prompt. Only the read-only and language lines are added.
+    text = f"{brief}{style}{fmt}{project_style()}\n\n{READ_ONLY_LINE} {LANGUAGE_LINE}"
     OUT.mkdir(parents=True, exist_ok=True)
     stem = f"{dt.date.today():%Y%m%d}-{re.sub(r'[^\w-]+', '-', a.slug).strip('-')}"
     md = OUT / (stem + (".html" if a.html else ".md"))
@@ -161,7 +165,7 @@ def cmd_say(a: argparse.Namespace) -> int:
         meta = {"file": md.name, "conversation_id": None, "model": a.model, "log": []}
     else:
         md, meta = current(a)
-    env = agy(a.message + ("\n\n" + READ_ONLY_LINE
+    env = agy(a.message + ("\n\n" + READ_ONLY_LINE + " " + LANGUAGE_LINE
                            if not meta["conversation_id"] else ""), a, meta["conversation_id"])
     meta["conversation_id"] = meta["conversation_id"] or env.get("conversation_id")
     meta["log"].append({"kind": "say", "message": a.message, "status": env["status"], "usage": env.get("usage")})
@@ -169,7 +173,7 @@ def cmd_say(a: argparse.Namespace) -> int:
     talk = md.with_name(md.stem + "-talk.md")
     if env["reply"]:
         with talk.open("a", encoding="utf-8") as f:
-            f.write(f"**Claude（转述）:** {a.message}\n\n**Gemini:** {env['reply']}\n\n---\n\n")
+            f.write(f"**Claude → Gemini:** {a.message}\n\n**Gemini:** {env['reply']}\n\n---\n\n")
     print(json.dumps(summary(talk, env), ensure_ascii=False, indent=1))
     print("\n" + env["reply"])
     return 0 if env["reply"] else 1
@@ -177,7 +181,7 @@ def cmd_say(a: argparse.Namespace) -> int:
 
 def cmd_handoff(a: argparse.Namespace) -> int:
     md, meta = current(a)
-    env = agy(read("handoff.md"), a, meta["conversation_id"])
+    env = agy(read("handoff.md") + " " + LANGUAGE_LINE, a, meta["conversation_id"])
     meta["log"].append({"kind": "handoff", "status": env["status"], "usage": env.get("usage")})
     md.with_suffix(".json").write_text(json.dumps(meta, ensure_ascii=False, indent=1))
     out = md.with_name(md.stem + "-handoff.md")
@@ -185,6 +189,38 @@ def cmd_handoff(a: argparse.Namespace) -> int:
         out.write_text(env["reply"] + "\n", encoding="utf-8")
     print(json.dumps(summary(out, env), ensure_ascii=False, indent=1))
     return 0 if env["reply"] else 1
+
+
+def cmd_doctor(_: argparse.Namespace) -> int:
+    """Each check prints ok/FAIL and a fix. `/usage` is a slash command: it answers with no model turn."""
+    def run(*args: str) -> tuple[int, str]:
+        try:
+            r = subprocess.run(["agy", *args], stdin=subprocess.DEVNULL, capture_output=True, text=True, timeout=90)
+            return r.returncode, (r.stdout + r.stderr).strip()
+        except (OSError, subprocess.TimeoutExpired) as e:
+            return -1, str(e)
+    exe = shutil.which("agy")
+    print(f"{'ok  ' if exe else 'FAIL'} agy: {exe or 'not found. Install: brew install --cask antigravity-cli'}")
+    if not exe:
+        return 1
+    rc, out = run("--version")
+    print(f"{'ok  ' if rc == 0 else 'FAIL'} version: {out.splitlines()[-1] if out else rc}")
+    rc, out = run("-p", "/usage", "--output-format", "json")
+    try:
+        groups = json.loads(out.splitlines()[-1])["command"]["data"]["groups"]
+    except (ValueError, KeyError, IndexError, TypeError):
+        groups = None
+    if not groups:
+        print(f"FAIL sign-in: run `agy` once in a terminal and sign in with Google. ({out[-200:]})")
+        return 1
+    for g in groups:
+        left = ", ".join(f"{b['window']} {round(b['remaining_fraction'] * 100)}%" for b in g.get("buckets", []))
+        print(f"ok   quota {g['name']}: {left} left")
+    rc, out = run("models")
+    gemini = [line.split("\t")[0] for line in out.splitlines() if line.startswith("gemini-")]
+    print(f"{'ok  ' if gemini else 'FAIL'} Gemini models: {', '.join(gemini) or 'none on this account'}")
+    print(f"{'ok  ' if sys.version_info >= (3, 9) else 'FAIL'} python {sys.version.split()[0]} (needs 3.9+)")
+    return 0 if gemini else 1
 
 
 def main() -> int:
@@ -206,6 +242,7 @@ def main() -> int:
     s.add_argument("--new", action="store_true", help="start a fresh conversation instead of continuing")
     s.set_defaults(func=cmd_say)
     sub.add_parser("handoff", parents=[c]).set_defaults(func=cmd_handoff)
+    sub.add_parser("doctor").set_defaults(func=cmd_doctor)
     sub.add_parser("models").set_defaults(func=lambda _: subprocess.run(["agy", "models"], stdin=subprocess.DEVNULL).returncode)
     a = p.parse_args()
     return a.func(a)

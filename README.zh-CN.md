@@ -10,6 +10,7 @@
 <p align="center">
   <a href="#30-秒安装"><b>30 秒安装</b></a> ·
   <a href="#你可以这样说">你可以这样说</a> ·
+  <a href="#和其他-agy-插件的区别">和其他插件的区别</a> ·
   <a href="#工作方式">工作方式</a> ·
   <a href="README.md">English</a>
 </p>
@@ -46,7 +47,23 @@ agy                                   # 运行一次，用 Google 账户登录
 | "好，取 Gemini 的简报。" | Gemini 说出你要什么、还没定什么、它自己的建议（分开写）。**Claude 对照你的原话和代码复核**，然后动手。 |
 | "让 Gemini 也独立出一份方案。" | Claude 出一份；Gemini 只拿你的原话和必要背景，独立出一份。Claude 合并，并告诉你哪里一致、哪里不同。 |
 
-它用你的语言回答。讲解风格默认关闭，你要时才开：`plain`（约 80% 的 ASD-STE100）、`eli5`、`feynman`、`expert`，或 `--html` 交互式页面。
+你和 Claude 用什么语言，Gemini 就用什么语言回答；任何地方都不写死语言。讲解风格默认关闭，你要时才开：`plain`（约 80% 的 ASD-STE100）、`eli5`、`feynman`、`expert`，或 `--html` 交互式页面。
+
+## 和其他 agy 插件的区别
+
+其他 Claude Code 的 `agy` 插件，比如 [antigravity-for-claude-code](https://github.com/yuting0624/antigravity-for-claude-code)，让 Gemini **给 Claude 打工**：写代码、生成测试、审 diff，Claude 再验收。你只和 Claude 说话。
+
+claude-x-gemini 让 Gemini **坐到你面前**，负责你"弄懂、想清楚"的那段对话。动手改东西的始终只有 Claude。
+
+| | Gemini 给 Claude 打工 | claude-x-gemini |
+|---|---|---|
+| Gemini 和谁说话 | Claude | **你** |
+| 你看到什么 | Claude 对 Gemini 产出的总结 | **Gemini 的原话，不经删改** |
+| 带回给 Claude 什么 | 代码、diff、摘要 | **你要什么、还没定什么、Gemini 的建议，分开写** |
+| 谁改文件 | Gemini（需授予写权限） | **只有 Claude；Gemini 永远只读** |
+| 体量 | 很多命令、hook、模型路由 | 一个 skill、一个标准库脚本、四句固定的话 |
+
+想在写代码上省 token，选打工型插件。想弄懂一个项目、或者和最好聊的模型把想法聊透，又不让它碰你的代码，选这个。
 
 ## 工作方式
 
@@ -75,7 +92,7 @@ sequenceDiagram
 
 - **Gemini 读，Claude 不读。** 阅读最费 agent 的额度，所以 Claude 只点名文件。相关项目在编码任务上测过：整件事交出去、主控不读材料，成本约 0.58 倍；逐个文件交出去，成本 1.33–1.68 倍（[antigravity-for-claude-code](https://github.com/yuting0624/antigravity-for-claude-code)）。
 - **Claude 先复核再动手。** Gemini 粗心，还说得很笃定。测试中它把峰时说成了半价时段，被 Claude 的复核查了出来。你的原话永远优先于 Gemini 的总结。
-- **几乎没有 prompt。** Claude 用自己的话写给 Gemini，不教 Gemini 怎么说话。一次小规模盲评（一个题目、一位读者）中，这种写法胜过固定 5 项模板。固定的句子只有改变过测试结果才保留，最后留下三句：列出你没回答的问题；Gemini 的建议和你的要求分开；只读，并标出推测。
+- **几乎没有 prompt。** Claude 用自己的话写给 Gemini，不教 Gemini 怎么说话。一次小规模盲评（一个题目、一位读者）中，这种写法胜过固定 5 项模板。固定的句子只有改变过测试结果才保留，最后留下四句：列出你没回答的问题；Gemini 的建议和你的要求分开；只读，并标出推测；全部用你的语言写（没有这句时，中文回答里夹着 agy 的英文进度提示）。
 
 ## 仓库里有什么
 
@@ -83,7 +100,7 @@ sequenceDiagram
 .claude-plugin/                  插件与市场清单
 skills/claude-x-gemini/          一个自成一体的 skill（Agent Skills 规范）
   SKILL.md                       给 Claude 看的流程（60 行）
-  scripts/relay.py               explain · say · handoff · models（只用标准库）
+  scripts/relay.py               explain · say · handoff · models · doctor（只用标准库）
   assets/handoff.md              唯一固定发给 Gemini 的要求：一句话
   assets/styles/*.md             可选风格，每个一行
 assets/                          主页图片
@@ -93,8 +110,10 @@ assets/                          主页图片
 
 ## 局限与安全
 
+出了问题？运行 `python3 skills/claude-x-gemini/scripts/relay.py doctor`：检查 `agy`、登录、额度和可用模型，不消耗对话轮次。
+
 - Gemini 只读：不能写文件、不能执行命令。它能读工作区里的文件，读到的内容会发给 Google。
-- 每次运行前，按精确路径禁止读取疑似密钥文件（`.env*`、私钥、凭据）。Antigravity CLI 1.5.16 的通配符和正则禁止规则在测试中无效。搜索工具没有测过。
+- 每次运行前，按精确路径禁止读取疑似密钥文件（`.env*`、私钥、凭据）。Antigravity CLI 1.5.16 的通配符和正则禁止规则在测试中无效。在一次诱饵测试中（agy 1.5.16，2026 年 11 月），我们放入假密钥，让 Gemini 用它所有的工具去找：在这些设置下它没有搜索和列目录工具，读 `.env` 被拒绝，没有泄露任何值。以后的 `agy` 如果加入搜索工具，结果可能改变。
 - 能用哪个 Gemini 取决于套餐。2026 年 11 月，学生版 Google AI Pro 在 Antigravity 里只有 Gemini 3.8 Flash；付费 Pro 和 Ultra 可用 Gemini 4 Neon。
 
 ## 致谢
