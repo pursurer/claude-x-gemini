@@ -2,7 +2,7 @@
 
 **A Claude Code plugin. In Claude Code you name Gemini; Gemini reads the files itself and explains things to you; when it is talked through, Claude Code checks the result and does the work.**
 
-**English** · [中文](README.zh-CN.md) · [▶ Launch film (26 s, Chinese)](#launch-film)
+**English** · [中文](README.zh-CN.md) · [▶ Launch film (34 s)](#launch-film)
 
 <p align="center">
   <img src="assets/kazik-post-en.png" alt="English translation of a post by @Khazix0918 (the original is in Chinese). Google: the most comfortable model to talk to + decent taste + careless + a shit harness + use it all you want. Claude: pretty good to talk to + superb taste + so-so rigor + an unbeatable harness + they just won't let you use it. Come at me, nyah nyah." width="720"><br>
@@ -21,11 +21,11 @@
 
 ## Launch film
 
-26 seconds, with sound. The narration and captions are in Chinese.
+34 seconds, with sound. It first walks one request through a 3D scene, then shows a real recording in Claude Code (the app is in Chinese; the captions are English).
 
-https://github.com/user-attachments/assets/5ac844b1-a042-4ad0-8d69-3467ddcdaf71
+https://github.com/user-attachments/assets/b787fc13-3eb7-43b2-a27c-fab26006639c
 
-<sub>If it does not play: [download the mp4](assets/claude-x-gemini-film-zh.mp4).</sub>
+<sub>If it does not play: [download the mp4](assets/claude-x-gemini-film-en.mp4).</sub>
 
 ## How one request travels
 

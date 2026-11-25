@@ -2,7 +2,7 @@
 
 **一个 Claude Code 插件：你在 Claude Code 里点名 Gemini，Gemini 自己读文件、把事情讲给你听；聊清楚后，Claude Code 复核并动手。**
 
-[English](README.md) · **中文** · [▶ 宣传片（26 秒）](#宣传片)
+[English](README.md) · **中文** · [▶ 宣传片（34 秒）](#宣传片)
 
 <p align="center">
   <img src="assets/kazik-post.png" alt="@数字生命卡兹克 的帖子：Google：沟通极舒服的模型+审美不错+粗心大意+狗屎的Harness+随便用；Claude：沟通还不错的模型+审美极佳+一般严谨+无敌的Harness+就是不给你用你打我啊略略略。" width="720"><br>
@@ -21,9 +21,9 @@
 
 ## 宣传片
 
-26 秒，有声音。
+34 秒，有声音。先在 3D 场景里把一次请求走一遍，再进 Claude Code 看真实录屏。
 
-https://github.com/user-attachments/assets/5ac844b1-a042-4ad0-8d69-3467ddcdaf71
+https://github.com/user-attachments/assets/07bc42aa-695a-4560-b769-27fc651a341c
 
 <sub>播放不了时：[下载 mp4](assets/claude-x-gemini-film-zh.mp4)。</sub>
 

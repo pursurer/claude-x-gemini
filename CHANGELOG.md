@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Launch film, new cut (34 s), in Chinese and English: the five steps of one request play in the 3D opening, then the
+  real recording, then the loop figure. `README.md` plays the English cut, `README.zh-CN.md` the Chinese one.
+
 ## 0.2.0 — 2026-11-25
 
 - Language follows the human: one fixed line asks Gemini to write everything, progress notes included, in the
