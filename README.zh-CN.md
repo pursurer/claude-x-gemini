@@ -6,7 +6,7 @@
 
 <p align="center">
   <img src="assets/kazik-post.png" alt="@数字生命卡兹克 的帖子：Google：沟通极舒服的模型+审美不错+粗心大意+狗屎的Harness+随便用；Claude：沟通还不错的模型+审美极佳+一般严谨+无敌的Harness+就是不给你用你打我啊略略略。" width="720"><br>
-  <sub>出发点是这条判断：<a href="https://x.com/Khazix0918/status/2124680457623425334">@数字生命卡兹克</a>。Gemini 最好聊，Claude 的 Harness 最强。这个插件在他的文章之上往前接了一步：让 Gemini 直接讲给你听，活仍由 Claude 来做。</sub>
+  <sub>出发点是这条判断：<a href="https://x.com/Khazix0918/status/2124680457623425334">@数字生命卡兹克</a>。Gemini 最好聊，Claude 的 Harness 最强。这个插件在卡兹克的文章之上往前接了一步：让 Gemini 直接讲给你听，活仍由 Claude 来做。</sub>
 </p>
 
 ## 30 秒看懂
@@ -118,15 +118,15 @@ python3 skills/claude-x-gemini/scripts/relay.py doctor
 > Gemini = 沟通极舒服的模型 + 审美不错 + 粗心大意 + 狗屎的Harness<br>
 > Claude = 沟通还不错的模型 + 审美极佳 + 一般严谨 + 无敌的Harness
 
-这两行出自他讲三个模型如何协同的[文章](https://x.com/Khazix0918/status/2124680457623425334)，是我们读过把这件事讲得最清楚的一篇。他的答案是让 Claude 站中间，Gemini 坐在旁边当军师：Claude 去问 Gemini，采纳它的点子。
+这两行出自卡兹克讲三个模型如何协同的[文章](https://x.com/Khazix0918/status/2124680457623425334)，是我们读过把这件事讲得最清楚的一篇。卡兹克的答案是让 Claude 站中间，Gemini 坐在旁边当军师：Claude 去问 Gemini，采纳它的点子。
 
-这个插件沿着同一个思路再往前走一步。他把“可沟通性”说成“人类的可理解性”，也就是说，好读是给人的优点。那就让 Gemini 也直接讲给人听：
+这个插件沿着同一个思路再往前走一步。卡兹克把“可沟通性”说成“人类的可理解性”，也就是说，好读是给人的优点。那就让 Gemini 也直接讲给人听：
 
 1. Gemini 自己读文件，把项目讲给你，你可以一直追问，直到弄懂。
 2. 你想清楚之后，Gemini 把你要什么、还有什么没定、它的建议写成 handoff。
 3. Claude 有最好的 Harness，由它对照你的原话和文件核对 handoff，再动手。
 
-他也说过 Gemini 会粗心，所以第 3 步的核对不能省。
+卡兹克也说过 Gemini 会粗心，所以第 3 步的核对不能省。
 
 ## 局限与安全
 
@@ -169,7 +169,7 @@ assets/                          主页图片和宣传片
 
 ## 致谢
 
-- [@数字生命卡兹克](https://x.com/Khazix0918/status/2124680457623425334)：模型画像、“可沟通性”的说法，以及“Claude 站中间、Gemini 当军师”的思路。这个插件是在他的文章之上做的。
+- [@数字生命卡兹克](https://x.com/Khazix0918/status/2124680457623425334)：模型画像、“可沟通性”的说法，以及“Claude 站中间、Gemini 当军师”的思路。这个插件是在卡兹克的文章之上做的。
 - [antigravity-for-claude-code](https://github.com/yuting0624/antigravity-for-claude-code)：只读 `agy` 设置与实测数据。
 - [Andrej Karpathy](https://x.com/karpathy/status/2105819303471976479)：约 80% 的 ASD-STE100（`plain` 风格）。
 - [understanding-ladder](https://github.com/ChangWenC/understanding-ladder)：“不删任何内容”。

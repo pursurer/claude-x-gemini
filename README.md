@@ -6,7 +6,7 @@
 
 <p align="center">
   <img src="assets/kazik-post-en.png" alt="English translation of a post by @Khazix0918 (the original is in Chinese). Google: the most comfortable model to talk to + decent taste + careless + a shit harness + use it all you want. Claude: pretty good to talk to + superb taste + so-so rigor + an unbeatable harness + they just won't let you use it. Come at me, nyah nyah." width="720"><br>
-  <sub>The starting point is this judgement by <a href="https://x.com/Khazix0918/status/2124680457623425334">@Khazix0918</a> (the picture is our translation; <a href="assets/kazik-post.png">the original post</a> is in Chinese): Gemini is the nicest model to talk to, and Claude has the best harness. This plugin takes one more step on top of his article: Gemini explains things to you directly, and Claude still does the work.</sub>
+  <sub>The starting point is this judgement by <a href="https://x.com/Khazix0918/status/2124680457623425334">@Khazix0918</a> (the picture is our translation; <a href="assets/kazik-post.png">the original post</a> is in Chinese): Gemini is the nicest model to talk to, and Claude has the best harness. This plugin takes one more step on top of Kazik's article: Gemini explains things to you directly, and Claude still does the work.</sub>
 </p>
 
 ## In 30 seconds
@@ -118,15 +118,15 @@ Kazik's words, translated:
 > Gemini = the most comfortable model to talk to + decent taste + careless + a shit harness<br>
 > Claude = pretty good to talk to + superb taste + so-so rigor + an unbeatable harness
 
-These two lines come from his [article](https://x.com/Khazix0918/status/2124680457623425334) on how to run three models as a team. It is the clearest account of this that we have read. His answer is to put Claude in the middle and seat Gemini beside it as an adviser: Claude asks Gemini and uses its ideas.
+These two lines come from Kazik's [article](https://x.com/Khazix0918/status/2124680457623425334) on how to run three models as a team. It is the clearest account of this that we have read. Kazik's answer is to put Claude in the middle and seat Gemini beside it as an adviser: Claude asks Gemini and uses its ideas.
 
-This plugin goes one step further on the same road. He describes being easy to talk to as how well a human can understand a model. So that strength is for a human reader. Then let Gemini talk to the human too:
+This plugin goes one step further on the same road. Kazik describes being easy to talk to as how well a human can understand a model. So that strength is for a human reader. Then let Gemini talk to the human too:
 
 1. Gemini reads the files itself and explains the project to you. You can keep asking until you understand it.
 2. When you have decided, Gemini writes a handoff: what you want, what is still open, and its own suggestions.
 3. Claude has the best harness. It checks the handoff against your words and the files, then does the work.
 
-He also says that Gemini can be careless. That is why the check in step 3 stays.
+Kazik also says that Gemini can be careless. That is why the check in step 3 stays.
 
 ## Limits and safety
 
@@ -169,7 +169,7 @@ assets/                          README pictures and the launch film
 
 ## Credits
 
-- [@Khazix0918](https://x.com/Khazix0918/status/2124680457623425334): the model profiles, the idea of communicability, and the idea of Claude in the middle with Gemini as its adviser. This plugin is built on top of his article.
+- [@Khazix0918](https://x.com/Khazix0918/status/2124680457623425334): the model profiles, the idea of communicability, and the idea of Claude in the middle with Gemini as its adviser. This plugin is built on top of Kazik's article.
 - [antigravity-for-claude-code](https://github.com/yuting0624/antigravity-for-claude-code): the read-only `agy` settings and the measurements.
 - [Andrej Karpathy](https://x.com/karpathy/status/2105819303471976479): about 80% of ASD-STE100 (the `plain` style).
 - [understanding-ladder](https://github.com/ChangWenC/understanding-ladder): "remove nothing".
