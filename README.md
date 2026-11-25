@@ -2,7 +2,7 @@
 
 **A Claude Code plugin. In Claude Code you name Gemini; Gemini reads the files itself and explains things to you; when it is talked through, Claude Code checks the result and does the work.**
 
-**English** · [中文](README.zh-CN.md) · [▶ Launch film (34 s)](#launch-film)
+**English** · [中文](README.zh-CN.md) · [▶ Launch film (36 s)](#launch-film)
 
 <p align="center">
   <img src="assets/kazik-post-en.png" alt="English translation of a post by @Khazix0918 (the original is in Chinese). Google: the most comfortable model to talk to + decent taste + careless + a shit harness + use it all you want. Claude: pretty good to talk to + superb taste + so-so rigor + an unbeatable harness + they just won't let you use it. Come at me, nyah nyah." width="720"><br>
@@ -21,9 +21,9 @@
 
 ## Launch film
 
-34 seconds, with sound. It first walks one request through a 3D scene, then shows a real recording in Claude Code (the app is in Chinese; the captions are English).
+36 seconds, with sound. It first walks one request through a 3D scene, then shows a real recording in Claude Code (the app is in Chinese; the captions are English).
 
-https://github.com/user-attachments/assets/b787fc13-3eb7-43b2-a27c-fab26006639c
+https://github.com/user-attachments/assets/c5272b84-c2d1-493d-963d-e4734e759713
 
 <sub>If it does not play: [download the mp4](assets/claude-x-gemini-film-en.mp4).</sub>
 
@@ -167,7 +167,7 @@ assets/                          README pictures and the launch film
 - [understanding-ladder](https://github.com/ChangWenC/understanding-ladder): "remove nothing".
 - Repository structure after the [Agent Skills specification](https://agentskills.io/specification), [anthropics/skills](https://github.com/anthropics/skills), [obra/superpowers](https://github.com/obra/superpowers) and [mattpocock/skills](https://github.com/mattpocock/skills).
 - The Gemini and Claude marks in the figure are trademarks of their owners and only name the products.
-- Launch film assets: Hong Kong city model by Jack M Simmons (CC BY) and MacBook model by jackbaeten (CC BY), both from Sketchfab; elevation data from Terrain Tiles (Mapzen, NASA SRTM).
+- Launch film assets: Hong Kong city model by Jack M Simmons (CC BY) and MacBook model by jackbaeten (CC BY), both from Sketchfab; elevation data from Terrain Tiles (Mapzen, NASA SRTM); music: Focus Minimal, from the [huashu-motion](https://github.com/alchaincyf/huashu-motion) library.
 
 ## License
 
