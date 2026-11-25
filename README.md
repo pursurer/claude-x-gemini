@@ -2,11 +2,11 @@
 
 **A Claude Code plugin. In Claude Code you name Gemini; Gemini reads the files itself and explains things to you; when it is talked through, Claude Code checks the result and does the work.**
 
-**English** · [中文](README.zh-CN.md) · [▶ Launch film (26 s, Chinese)](assets/claude-x-gemini-film-zh.mp4)
+**English** · [中文](README.zh-CN.md) · [▶ Launch film (26 s, Chinese)](#launch-film)
 
 <p align="center">
-  <img src="assets/kazik-post.png" alt="Post by @Khazix0918 (in Chinese): Google = the most comfortable model to talk to + decent taste + careless + a shit harness; Claude = pretty good to talk to + superb taste + so-so rigor + an unbeatable harness; GPT = impossible to talk to + questionable taste + extremely rigorous at work + a decent harness." width="720"><br>
-  <sub>The starting point is this judgement by <a href="https://x.com/Khazix0918/status/2124680457623425334">@Khazix0918</a>: Gemini is the nicest model to talk to, and Claude has the best harness. This plugin lets each do what it is good at.</sub>
+  <img src="assets/kazik-post-en.png" alt="English translation of a post by @Khazix0918 (the original is in Chinese). Google: the most comfortable model to talk to + decent taste + careless + a shit harness + use it all you want. Claude: pretty good to talk to + superb taste + so-so rigor + an unbeatable harness + they just won't let you use it. Come at me, nyah nyah." width="720"><br>
+  <sub>The starting point is this judgement by <a href="https://x.com/Khazix0918/status/2124680457623425334">@Khazix0918</a> (the picture is our translation; <a href="assets/kazik-post.png">the original post</a> is in Chinese): Gemini is the nicest model to talk to, and Claude has the best harness. This plugin lets each do what it is good at.</sub>
 </p>
 
 ## In 30 seconds
@@ -18,6 +18,14 @@
 | **Who does what** | Gemini: reads files (read-only), explains, talks with you. Claude Code: relays, checks, edits code, runs commands. |
 | **When it runs** | Only when you name Gemini. Reason: the files Gemini reads go to Google. |
 | **Requirements** | Claude Code; `agy` signed in with a Google account; Python 3.9+; macOS or Linux. |
+
+## Launch film
+
+26 seconds, with sound. The narration and captions are in Chinese.
+
+https://github.com/user-attachments/assets/5ac844b1-a042-4ad0-8d69-3467ddcdaf71
+
+<sub>If it does not play: [download the mp4](assets/claude-x-gemini-film-zh.mp4).</sub>
 
 ## How one request travels
 

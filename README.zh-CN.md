@@ -2,10 +2,10 @@
 
 **一个 Claude Code 插件：你在 Claude Code 里点名 Gemini，Gemini 自己读文件、把事情讲给你听；聊清楚后，Claude Code 复核并动手。**
 
-[English](README.md) · **中文** · [▶ 宣传片（26 秒）](assets/claude-x-gemini-film-zh.mp4)
+[English](README.md) · **中文** · [▶ 宣传片（26 秒）](#宣传片)
 
 <p align="center">
-  <img src="assets/kazik-post.png" alt="@数字生命卡兹克 的帖子：Google：沟通极舒服的模型+审美不错+粗心大意+狗屎的Harness+随便用；Claude：沟通还不错的模型+审美极佳+一般严谨+无敌的Harness+就是不给你用你打我啊略略略；GPT：没法沟通的模型+审美勾槽的+干活极其严谨+还不错的Harness+随便用。" width="720"><br>
+  <img src="assets/kazik-post.png" alt="@数字生命卡兹克 的帖子：Google：沟通极舒服的模型+审美不错+粗心大意+狗屎的Harness+随便用；Claude：沟通还不错的模型+审美极佳+一般严谨+无敌的Harness+就是不给你用你打我啊略略略。" width="720"><br>
   <sub>出发点是这条判断：<a href="https://x.com/Khazix0918/status/2124680457623425334">@数字生命卡兹克</a>。Gemini 最好聊，Claude 的 Harness 最强。这个插件让两者各做擅长的事。</sub>
 </p>
 
@@ -18,6 +18,14 @@
 | **怎么分工** | Gemini：只读文件，讲解，陪你聊。Claude Code：转交，复核，改代码，跑命令。 |
 | **什么时候运行** | 只在你点名 Gemini 时。原因：Gemini 读到的文件会发给 Google。 |
 | **需要什么** | Claude Code；`agy` 已登录 Google 账户；Python 3.9+；macOS 或 Linux。 |
+
+## 宣传片
+
+26 秒，有声音。
+
+https://github.com/user-attachments/assets/5ac844b1-a042-4ad0-8d69-3467ddcdaf71
+
+<sub>播放不了时：[下载 mp4](assets/claude-x-gemini-film-zh.mp4)。</sub>
 
 ## 一次请求怎么走
 

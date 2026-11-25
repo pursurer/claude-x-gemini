@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 — 2026-11-25
 
 - Language follows the human: one fixed line asks Gemini to write everything, progress notes included, in the
   language the human uses. No language is named anywhere; the `say` log labels are now language-neutral.
@@ -10,6 +10,12 @@
 - README: a "How it differs" section against worker-style `agy` plugins.
 - Canary test of the secret-file deny list (agy 1.5.16): no search or listing tool was available, `.env` was
   denied, no planted value leaked.
+- README, both languages: rebuilt for a fast read. One-sentence definition, @Khazix0918's post as the lead
+  picture, an "In 30 seconds" table, the request as a 3D loop figure with five steps, and a quick reference
+  for agents.
+- README pictures: a sharper screenshot of the post; an English rendering of it for `README.md`, marked as a
+  translation.
+- The 26-second launch film (Chinese) plays inline in both READMEs; the mp4 stays in `assets/`.
 
 ## 0.1.0 — 2026-11-24
 
