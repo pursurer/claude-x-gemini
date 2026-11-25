@@ -1,7 +1,7 @@
 {
   "name": "claude-x-gemini",
   "description": "Gemini explains your project to you, you talk it over, and Gemini tells Claude Code what you want. Gemini reads the files on its own quota via the Antigravity CLI.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": { "name": "pursurer" },
   "homepage": "https://github.com/pursurer/claude-x-gemini",
   "repository": "https://github.com/pursurer/claude-x-gemini",
