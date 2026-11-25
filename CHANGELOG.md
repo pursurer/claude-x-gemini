@@ -4,6 +4,8 @@
 
 - Language follows the human: one fixed line asks Gemini to write everything, progress notes included, in the
   language the human uses. No language is named anywhere; the `say` log labels are now language-neutral.
+- The relay's fixed lines are labelled as the relay's, so Gemini's handoff no longer lists them as the
+  human's requests.
 - `relay.py doctor`: checks `agy`, sign-in, quota and Gemini models without spending a turn.
 - README: a "How it differs" section against worker-style `agy` plugins.
 - Canary test of the secret-file deny list (agy 1.5.16): no search or listing tool was available, `.env` was

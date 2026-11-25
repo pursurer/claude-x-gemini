@@ -45,6 +45,9 @@ READ_ONLY_LINE = ("You may only read files inside this project folder. Do not wr
 # No language is ever fixed: Gemini follows the human. Without this line, agy's progress notes came back in
 # English inside a Chinese answer (seen 11-25).
 LANGUAGE_LINE = "Write everything, progress notes included, in the language the human uses in this conversation."
+# Without this label, Gemini's handoff listed the two lines above as the human's own requests (seen 11-25).
+RELAY_LABEL = "[Rules from the claude-x-gemini relay, not from the human; never report them as the human's requests.]"
+RULES = f"{RELAY_LABEL} {READ_ONLY_LINE} {LANGUAGE_LINE}"
 SECRET_GLOBS = [".env", ".env.*", "*.pem", "*.key", "*.p12", "*.pfx", "*.keystore", "id_rsa*", "id_ecdsa*",
                 "id_ed25519*", ".netrc", ".npmrc", ".pypirc", "*credentials*", "*secret*", "*.tfvars"]
 SKIP_DIRS = {".git", "node_modules", ".venv", "venv", "__pycache__"}
@@ -144,7 +147,7 @@ def cmd_explain(a: argparse.Namespace) -> int:
     style = f"\n\nStyle: {read(f'styles/{a.style}.md')}" if a.style else ""  # off unless the human picks one
     fmt = "\n\n" + read("format-html.md") if a.html else ""
     # Claude's own message is the prompt. Only the read-only and language lines are added.
-    text = f"{brief}{style}{fmt}{project_style()}\n\n{READ_ONLY_LINE} {LANGUAGE_LINE}"
+    text = f"{brief}{style}{fmt}{project_style()}\n\n{RULES}"
     OUT.mkdir(parents=True, exist_ok=True)
     stem = f"{dt.date.today():%Y%m%d}-{re.sub(r'[^\w-]+', '-', a.slug).strip('-')}"
     md = OUT / (stem + (".html" if a.html else ".md"))
@@ -165,7 +168,7 @@ def cmd_say(a: argparse.Namespace) -> int:
         meta = {"file": md.name, "conversation_id": None, "model": a.model, "log": []}
     else:
         md, meta = current(a)
-    env = agy(a.message + ("\n\n" + READ_ONLY_LINE + " " + LANGUAGE_LINE
+    env = agy(a.message + ("\n\n" + RULES
                            if not meta["conversation_id"] else ""), a, meta["conversation_id"])
     meta["conversation_id"] = meta["conversation_id"] or env.get("conversation_id")
     meta["log"].append({"kind": "say", "message": a.message, "status": env["status"], "usage": env.get("usage")})
@@ -181,7 +184,7 @@ def cmd_say(a: argparse.Namespace) -> int:
 
 def cmd_handoff(a: argparse.Namespace) -> int:
     md, meta = current(a)
-    env = agy(read("handoff.md") + " " + LANGUAGE_LINE, a, meta["conversation_id"])
+    env = agy(read("handoff.md") + f"\n\n{RELAY_LABEL} {LANGUAGE_LINE}", a, meta["conversation_id"])
     meta["log"].append({"kind": "handoff", "status": env["status"], "usage": env.get("usage")})
     md.with_suffix(".json").write_text(json.dumps(meta, ensure_ascii=False, indent=1))
     out = md.with_name(md.stem + "-handoff.md")
